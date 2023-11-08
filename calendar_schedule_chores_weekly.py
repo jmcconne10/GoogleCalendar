@@ -2,11 +2,10 @@
 # This is to schedule single all day events
 # Input file must be in format yyyy-mm-dd
 
-import datetime as dt
+from datetime import datetime, timedelta
 
 #from datetime import datetime, timedelta
 from cal_setup import get_calendar_service
-import pandas as pd
 
 # This function takes the date, time, and event name, connects to the Google Calendar and creates the event
 def createEvent(strDate,event):
@@ -28,24 +27,53 @@ def createEvent(strDate,event):
 def main():
     
     #This is the date one day prior to when events will start being scheduled
-    date = '2023-11-07'
+    date = '2023-11-24'
 
 
     #Inelegant way of getting 4 kids through each of the 4 chores. 
-    for x in range(10):
+    for x in range(90):
 
-        d = dt.datetime.strptime(date, "%Y-%m-%d") #Converts above string to datetime object
-        d = d + dt.timedelta(days=1) #Adds a day
+        d = datetime.strptime(date, "%Y-%m-%d") #Converts above string to datetime object
+        d = d + timedelta(days=1) #Adds a day
         d = d.date() #strips the hours from object
-        d = str(d) #converts to string
-        date = d
-        print(d)
+        dStr = str(d) #converts to string
+        date = dStr
+        day_of_week = d.weekday()
 
-        #print(day_of_week(d))
-        #event = 'Dish E - Trash Bre'
-        #createEvent(d,event)
+        print(dStr)
+        print(get_day_of_week(dStr, day_of_week))
 
-        
+def get_day_of_week(d, day_value):
+    if day_value == 0:
+        event = 'Dish Bre - Trash E'
+        createEvent(d,event)
+        return "Monday"
+    elif day_value == 1:
+        event = 'Dish Bro- Trash Bre'
+        createEvent(d,event)
+        return "Tuesday"
+    elif day_value == 2:
+        event = 'Dish RC - Trash E'
+        createEvent(d,event)
+        return "Wednesday"
+    elif day_value == 3:
+        event = 'Dish Bre - Trash Bro'
+        createEvent(d,event) 
+        return "Thursday"
+    elif day_value == 4:
+        event = 'Dish Bro- Trash RC'
+        createEvent(d,event)
+        return "Friday"
+    elif day_value == 5:
+        event = 'Dish RC - Trash Bre'
+        createEvent(d,event)
+        return "Saturday"
+    elif day_value == 6:
+        event = 'Dish E- Trash Bro'
+        createEvent(d,event)
+        return "Sunday"
+    else:
+        return "Invalid day value" 
 
 if __name__ == '__main__':
    main()
